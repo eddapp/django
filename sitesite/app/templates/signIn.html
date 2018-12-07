@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>SignIn</title>
+  </head>
+  <body>
+    <form class="" action="/postsign/" method="post">
+      {% csrf_token %}
+      Email:
+      <input type="email" name="email" value="">
+      Password:
+      <input type="password" name="pass" value="">
+      <input type="submit" value="signIn">
+
+    </form>
+
+  </body>
+</html>

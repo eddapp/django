@@ -1,0 +1,6 @@
+Django
+Flask
+psycopg2
+Redis
+pyrebase
+gunicorn

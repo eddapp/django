@@ -1,0 +1,50 @@
+version: '3'
+volumes:
+web:
+  restart: always
+  build: ./web/
+  expose:
+    - "8000"
+  links:
+    - postgres:postgres
+    - redis:redis
+  env_file: env
+  volumes:
+    - ./web:/data/web
+  command: /usr/bin/gunicorn mydjango.wsgi:application -w 2 -b :8000
+  redis:
+    restart: always
+    image: redis:latest
+    expose:
+      - "6379"
+
+  data:
+    restart: always
+    image: alpine
+    volumes:
+      - /var/lib/postgresql
+    command: "true"
+  pgdata:
+services:
+  python:
+  #  image: python:3.7.1
+    build:
+      context: .
+      dockerfile: docker/python/Dockerfile
+    volumes:
+      - çç./app:/app
+    ports:
+      - 8000:8000
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: example
+      POSTGRES_DB: example
+      POSTGRES_PASS: example
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    ##command: sleep infinity
+    #command: pip install -r requirments.txt && python manage.py runserve
+
